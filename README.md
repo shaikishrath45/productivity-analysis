@@ -126,3 +126,7 @@ This project provided practical experience in several areas of web development a
 
 Productivity Time Tracker demonstrates the integration of Chrome Extension development, backend services, and interactive dashboard visualization into a single application. The project highlights how browser activity can be monitored, processed, and presented through meaningful analytics to support better time management and productivity improvement. It also demonstrates the practical use of AI-assisted development with Cursor AI to accelerate project implementation while combining multiple modern web technologies into a functional productivity tracking system.
 
+#OUTPUT
+
+<img width="1915" height="969" alt="Image" src="https://github.com/user-attachments/assets/cc8ae62e-8df9-46d0-bab6-2a6f0079ffbf" />
+
