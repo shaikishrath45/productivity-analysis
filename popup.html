@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productivity Tracker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup">
+    <header>
+      <h1>⏱ Productivity Tracker</h1>
+    </header>
+
+    <section class="current-site">
+      <p class="label">Currently on</p>
+      <p id="current-site" class="site-name">—</p>
+      <span id="category-badge" class="badge neutral">—</span>
+    </section>
+
+    <section class="stats">
+      <div class="stat productive">
+        <span class="stat-value" id="productive-time">0m</span>
+        <span class="stat-label">Productive</span>
+      </div>
+      <div class="stat unproductive">
+        <span class="stat-value" id="unproductive-time">0m</span>
+        <span class="stat-label">Unproductive</span>
+      </div>
+      <div class="stat neutral">
+        <span class="stat-value" id="neutral-time">0m</span>
+        <span class="stat-label">Neutral</span>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button id="sync-btn" class="btn primary">Sync Now</button>
+      <button id="dashboard-btn" class="btn secondary">Open Dashboard</button>
+    </div>
+
+    <p id="sync-status" class="sync-status"></p>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productivity Analytics Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">⏱</span>
+        <span class="logo-text">Productivity Tracker</span>
+      </div>
+      <nav>
+        <a href="#" class="nav-item active" data-view="overview">Overview</a>
+        <a href="#" class="nav-item" data-view="weekly">Weekly Report</a>
+        <a href="#" class="nav-item" data-view="sites">Top Sites</a>
+        <a href="#" class="nav-item" data-view="settings">Settings</a>
+      </nav>
+      <div class="user-info">
+        <p class="user-label">User ID</p>
+        <p id="user-id-display" class="user-id">—</p>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="page-header">
+        <h1 id="page-title">Overview</h1>
+        <div class="header-actions">
+          <select id="period-select">
+            <option value="7">Last 7 days</option>
+            <option value="14">Last 14 days</option>
+            <option value="30">Last 30 days</option>
+          </select>
+          <button id="refresh-btn" class="btn">Refresh</button>
+        </div>
+      </header>
+
+      <div id="loading" class="loading hidden">Loading analytics...</div>
+      <div id="error" class="error hidden"></div>
+
+      <!-- Overview View -->
+      <div id="view-overview" class="view">
+        <div class="score-card">
+          <div class="score-ring">
+            <svg viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="52" fill="none" stroke="#1e293b" stroke-width="10"/>
+              <circle id="score-circle" cx="60" cy="60" r="52" fill="none" stroke="#34d399" stroke-width="10"
+                stroke-dasharray="327" stroke-dashoffset="327" stroke-linecap="round"
+                transform="rotate(-90 60 60)"/>
+            </svg>
+            <div class="score-value">
+              <span id="productivity-score">0</span>%
+            </div>
+          </div>
+          <div class="score-details">
+            <h2>Productivity Score</h2>
+            <p>Percentage of time spent on productive websites</p>
+          </div>
+        </div>
+
+        <div class="cards-grid">
+          <div class="card productive">
+            <h3>Productive Time</h3>
+            <p id="total-productive" class="card-value">0h 0m</p>
+          </div>
+          <div class="card unproductive">
+            <h3>Unproductive Time</h3>
+            <p id="total-unproductive" class="card-value">0h 0m</p>
+          </div>
+          <div class="card neutral">
+            <h3>Neutral Time</h3>
+            <p id="total-neutral" class="card-value">0h 0m</p>
+          </div>
+          <div class="card total">
+            <h3>Total Tracked</h3>
+            <p id="total-all" class="card-value">0h 0m</p>
+          </div>
+        </div>
+
+        <div class="charts-row">
+          <div class="chart-card">
+            <h3>Time Distribution</h3>
+            <canvas id="pie-chart"></canvas>
+          </div>
+          <div class="chart-card">
+            <h3>Daily Breakdown</h3>
+            <canvas id="bar-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weekly Report View -->
+      <div id="view-weekly" class="view hidden">
+        <div class="report-header">
+          <h2>Weekly Productivity Report</h2>
+          <p id="report-period">—</p>
+        </div>
+
+        <div class="report-score">
+          <div class="report-score-value" id="weekly-score">0%</div>
+          <p>Weekly Productivity Score</p>
+        </div>
+
+        <div class="report-grid">
+          <div class="report-section">
+            <h3>Top Productive Sites</h3>
+            <ul id="top-productive-list" class="site-list"></ul>
+          </div>
+          <div class="report-section">
+            <h3>Top Unproductive Sites</h3>
+            <ul id="top-unproductive-list" class="site-list"></ul>
+          </div>
+        </div>
+
+        <div class="chart-card full-width">
+          <h3>Daily Productivity Trend</h3>
+          <canvas id="weekly-chart"></canvas>
+        </div>
+      </div>
+
+      <!-- Top Sites View -->
+      <div id="view-sites" class="view hidden">
+        <div class="chart-card full-width">
+          <h3>Most Visited Sites</h3>
+          <table class="sites-table">
+            <thead>
+              <tr>
+                <th>Domain</th>
+                <th>Category</th>
+                <th>Time Spent</th>
+                <th>Visits</th>
+              </tr>
+            </thead>
+            <tbody id="sites-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Settings View -->
+      <div id="view-settings" class="view hidden">
+        <div class="settings-card">
+          <h3>Site Classification</h3>
+          <p class="settings-desc">Override how a website is classified for your account.</p>
+          <form id="classification-form">
+            <div class="form-row">
+              <input type="text" id="domain-input" placeholder="e.g. example.com" required>
+              <select id="category-select">
+                <option value="productive">Productive</option>
+                <option value="unproductive">Unproductive</option>
+                <option value="neutral">Neutral</option>
+              </select>
+              <button type="submit" class="btn primary">Save</button>
+            </div>
+          </form>
+          <ul id="classifications-list" class="classifications-list"></ul>
+        </div>
+
+        <div class="settings-card">
+          <h3>Connection</h3>
+          <p class="settings-desc">Make sure the Chrome extension is installed and the backend is running.</p>
+          <p>API: <code>http://localhost:3000/api</code></p>
+          <p>Extension syncs automatically every minute.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
